@@ -21,7 +21,7 @@ services:
 
     latte.filter:
         class: LatteBundle\Bridge\Nette\Templating\LatteFilter
-        arguments: [ @latte.parser, @latte.compiler ]
+        arguments: [ "@latte.parser", "@latte.compiler" ]
 
     latte.template_factory:
         alias: latte.template_factory.evented
@@ -31,7 +31,7 @@ services:
 
     latte.template_factory.evented:
         class: LatteBundle\Bridge\Nette\Templating\EventedTemplateFactory
-        arguments: [ @latte.template_factory.storage, @event_dispatcher ]
+        arguments: [ "@latte.template_factory.storage", "@event_dispatcher" ]
 
     latte.cache_storage:
         class: Nette\Caching\Storages\PhpFileStorage
@@ -45,21 +45,21 @@ services:
     # TODO: integrational test
     latte.listener.cache:
         class: LatteBundle\Listener\CacheListener
-        arguments: [ @latte.cache_storage ]
+        arguments: [ "@latte.cache_storage" ]
         tags:
             - { name: kernel.event_listener, event: latte.create_template, method: onCreateTemplate }
 
     # TODO: integrational test
     latte.listener.latteFilter:
         class: LatteBundle\Listener\LatteFilterListener
-        arguments: [ @latte.filter ]
+        arguments: [ "@latte.filter" ]
         tags:
             - { name: kernel.event_listener, event: latte.create_template, method: onCreateTemplate }
 
     # TODO: integrational test
     latte.listener.helpers:
         class: LatteBundle\Listener\HelpersListener
-        arguments: [ @latte.cache_storage ]
+        arguments: [ "@latte.cache_storage" ]
         tags:
             - { name: kernel.event_listener, event: latte.create_template, method: onCreateTemplate }
 
@@ -72,37 +72,37 @@ services:
     # TODO: integrational test
     latte.listener.globals:
         class: LatteBundle\Listener\GlobalVariablesListener
-        arguments: [ @templating.globals ]
+        arguments: [ "@templating.globals" ]
         tags:
             - { name: kernel.event_listener, event: latte.create_template, method: onCreateTemplate }
 
     templating.helper.latte.ui_macros:
         class: LatteBundle\Bridge\Symfony\Templating\Helper\UIMacrosHelper
-        arguments: [ @router ]
+        arguments: [ "@router" ]
         tags:
             - { name: templating.helper }
 
     templating.helper.latte.forms:
         class: LatteBundle\Bridge\Symfony\Templating\Helper\FormHelper
-        arguments: [ @latte.form.renderer ]
+        arguments: [ "@latte.form.renderer" ]
         tags:
             - { name: templating.helper }
 
     latte.form.engine:
         class: LatteBundle\Bridge\Symfony\Form\LatteRendererEngine
-        arguments: [ @templating.engine.latte, %latte.form.default_themes% ]
+        arguments: [ "@templating.engine.latte", %latte.form.default_themes% ]
 
     latte.form.renderer:
         class: LatteBundle\Bridge\Symfony\Form\LatteRenderer
-        arguments: [ @latte.form.engine, @form.csrf_provider ]
+        arguments: [ "@latte.form.engine", "@form.csrf_provider" ]
 
     templating.engine.latte:
         class: LatteBundle\LatteEngine
-        arguments: [ @templating.name_parser, @templating.loader, @latte.template_factory ]
+        arguments: [ "@templating.name_parser", "@templating.loader", "@latte.template_factory" ]
 
     assetic.latte_formula_loader:
         class: %assetic.cached_formula_loader.class% # TODO: LatteBundle should work without symfony/assetic-bundle
-        arguments: [@assetic.latte_formula_loader.real, @assetic.config_cache, %kernel.debug%]
+        arguments: ["@assetic.latte_formula_loader.real", "@assetic.config_cache", %kernel.debug%]
         tags:
             - { name: assetic.formula_loader, alias: latte }
 
@@ -115,4 +115,4 @@ services:
     latte.helpers:
         class: %latte.helpers.class%
         calls:
-            - [ setContainer, [ @service_container ]]
+            - [ setContainer, [ "@service_container" ]]
