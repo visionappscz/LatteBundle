@@ -1,6 +1,6 @@
 <?php
 
-namespace Lattebundle\Bridge\Nette\Caching;
+namespace LatteBundle\Bridge\Nette\Caching;
 
 use Nette\Caching as NCaching;
 
