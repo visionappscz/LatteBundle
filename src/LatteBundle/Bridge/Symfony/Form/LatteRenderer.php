@@ -3,11 +3,11 @@
 namespace LatteBundle\Bridge\Symfony\Form;
 
 use Symfony\Component\Form\FormRenderer;
-use Symfony\Component\Form\Extension\Csrf\CsrfProvider\CsrfProviderInterface;
+use Symfony\Component\Security\Csrf\CsrfTokenManager;
 
 class LatteRenderer extends FormRenderer
 {
-    public function __construct(LatteRendererEngine $engine, CsrfProviderInterface $csrfProvider)
+    public function __construct(LatteRendererEngine $engine, CsrfTokenManager $csrfProvider)
     {
         parent::__construct($engine, $csrfProvider);
     }
