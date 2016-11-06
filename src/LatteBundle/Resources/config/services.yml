@@ -11,11 +11,9 @@ services:
     latte.parser:
         class: Nette\Latte\Parser
 
-    latte.compiler.factory:
-        class: LatteBundle\Bridge\Nette\Latte\CompilerFactory
-
     latte.compiler:
         class: Nette\Latte\Compiler
+        factory: ['LatteBundle\Bridge\Nette\Latte\CompilerFactory', create]
         factory_service: latte.compiler.factory
         factory_method: create
 
@@ -94,7 +92,7 @@ services:
 
     latte.form.renderer:
         class: LatteBundle\Bridge\Symfony\Form\LatteRenderer
-        arguments: [ "@latte.form.engine", "@form.csrf_provider" ]
+        arguments: [ "@latte.form.engine", "@security.csrf.token_manager" ]
 
     templating.engine.latte:
         class: LatteBundle\LatteEngine
