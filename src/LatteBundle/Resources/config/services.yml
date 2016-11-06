@@ -11,11 +11,12 @@ services:
     latte.parser:
         class: Nette\Latte\Parser
 
+    latte.compiler.factory:
+        class: LatteBundle\Bridge\Nette\Latte\CompilerFactory
+
     latte.compiler:
         class: Nette\Latte\Compiler
-        factory: ['LatteBundle\Bridge\Nette\Latte\CompilerFactory', create]
-        factory_service: latte.compiler.factory
-        factory_method: create
+        factory: ["@latte.compiler.factory", create]
 
     latte.filter:
         class: LatteBundle\Bridge\Nette\Templating\LatteFilter
@@ -33,8 +34,7 @@ services:
 
     latte.cache_storage:
         class: Nette\Caching\Storages\PhpFileStorage
-        factory_service: latte.cache_storage.factory
-        factory_method: create
+        factory: [ "@latte.cache_storage.factory", create ]
         arguments: [ %latte.cache_dir% ]
 
     latte.cache_storage.factory:
